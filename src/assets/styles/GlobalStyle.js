@@ -50,7 +50,6 @@ table {
 }
 
 *{
-    background-color: #18305d;
     font-family: 'Roboto', sans-serif;      
 }
 `;

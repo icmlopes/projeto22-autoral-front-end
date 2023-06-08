@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
+  background-color: #18305d;
   display: flex;
   justify-content: space-evenly;
+  height: 100vh;
   @media (max-width: 768px) {
     flex-direction: column;
     justify-content: center;
@@ -34,10 +36,11 @@ export const FormContainer = styled.div`
 `;
 
 export const Form = styled.form`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
   p {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
     font-size: 25px;
     color: #fffcf7;
     margin-bottom: 10px;
@@ -55,6 +58,27 @@ export const Form = styled.form`
   input:focus {
     outline: none;
     background-color: #fffcf7;
+  }
+  button {
+    width: 452px;
+    height: 71px;
+    background-color: #08449b;
+    color: #fffcf7;
+    font-size: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    @media (max-width: 768px) {
+      width: 348px;
+      height: 47px;
+      font-size: 20px;
+    }
+    @media (max-width: 375px) {
+      width: 310px;
+      height: 47px;
+      font-size: 15px;
+    }
   }
   @media (max-width: 768px) {
     p {
@@ -75,28 +99,6 @@ export const Form = styled.form`
       height: 47px;
       font-size: 15px;
     }
-  }
-`;
-
-export const ConfirmButton = styled.button`
-  width: 452px;
-  height: 71px;
-  background-color: #08449b;
-  color: #fffcf7;
-  font-size: 25px;
-  border-radius: 10px;
-  margin-top: 10px;
-  border: none;
-  cursor: pointer;
-  @media (max-width: 768px) {
-    width: 348px;
-    height: 47px;
-    font-size: 20px;
-  }
-  @media (max-width: 375px) {
-    width: 310px;
-    height: 47px;
-    font-size: 15px;
   }
 `;
 

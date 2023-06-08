@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "../../components/useForm";
 import LOGO1 from "../../assets/images/LOGO1.svg";
 import {
@@ -8,19 +8,44 @@ import {
   ActionText,
   FormContainer,
   Form,
-  ConfirmButton,
   Text,
 } from "../../assets/styles/FormStyle";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function RegisterPage() {
   const [form, handleForm] = useForm({
-    name: "",
     email: "",
     password: "",
     confirmPassword: ",",
   });
 
   const navigate = useNavigate();
+
+  async function registration(event) {
+    event.preventDefault();
+
+    axios
+      .post(`${process.env.REACT_APP_API_BASE_URL}/register`, form)
+      .then((response) => {
+        console.log(response.data);
+        toast("Cadastro realizado com sucesso!");
+        navigate("/");
+      })
+      .catch((error) => {
+        if (error.response.data.name === "DuplicatedEmailError") {
+          toast("Esse e-mail já foi cadastrado, tente fazer login!");
+        }
+
+        if (error.response.data.name === "differentPasswordError") {
+          toast("As senhas precisam ser iguais!");
+        }
+
+        if (error.response.data.name === "InvalidDataError") {
+          toast("A senha precisa ter no mínimo 6 caracteres!");
+        }
+      });
+  }
   return (
     <MainContainer>
       <LogoContainer>
@@ -29,24 +54,34 @@ export default function RegisterPage() {
       <BlockContainer>
         <ActionText>Cadastro</ActionText>
         <FormContainer>
-          <Form>
+          <Form onSubmit={registration}>
             <p>Email</p>
-            <input type="text" placeholder="Email" name="email" value={form.email} onChange={handleForm} />
+            <input type="email" required placeholder="Email" name="email" value={form.email} onChange={handleForm} />
             <p>Senha</p>
-            <input type="text" placeholder="Senha" name="password" value={form.password} onChange={handleForm} />
+            <input
+              type="password"
+              required
+              placeholder="Senha"
+              name="password"
+              value={form.password}
+              onChange={handleForm}
+            />
             <p>Confirme sua senha</p>
             <input
-              type="text"
+              type="password"
+              required
               placeholder="Senha"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleForm}
             />
+            <button type="submit">Cadastrar</button>
           </Form>
-          <ConfirmButton>Cadastrar</ConfirmButton>
-          <Text>
-            <h3>Possui uma conta? Faça login!</h3>
-          </Text>
+          <Link to="/">
+            <Text>
+              <h3>Possui uma conta? Faça login!</h3>
+            </Text>
+          </Link>
         </FormContainer>
       </BlockContainer>
     </MainContainer>

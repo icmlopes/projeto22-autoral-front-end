@@ -8,7 +8,7 @@ import {
   ActionText,
   FormContainer,
   Form,
-  ConfirmButton,
+  // ConfirmButton,
   Text,
 } from "../../assets/styles/FormStyle";
 
@@ -34,8 +34,8 @@ export default function LoginPage() {
             <input type="text" placeholder="Email" name="email" value={form.email} onChange={handleForm} />
             <p>Senha</p>
             <input type="text" placeholder="Senha" name="password" value={form.password} onChange={handleForm} />
+            <button>Login</button>
           </Form>
-          <ConfirmButton>Login</ConfirmButton>
           <Text>
             <h3>Não possui uma conta? Cadastre-se!</h3>
           </Text>
