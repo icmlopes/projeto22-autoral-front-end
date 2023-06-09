@@ -7,26 +7,45 @@ import {
   BlockContainer,
   ActionText,
   FormContainer,
+  UserTypeButton,
+  SubmitButton,
   Form,
   Text,
+  UserTypeContainer,
 } from "../../assets/styles/FormStyle";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useState } from "react";
 
 export default function RegisterPage() {
   const [form, handleForm] = useForm({
     email: "",
     password: "",
-    confirmPassword: ",",
+    confirmPassword: "",
+    userType: "",
   });
 
+  const [userType, setUserType] = useState("cliente");
+
   const navigate = useNavigate();
+
+  const handleUserType = (type) => {
+    setUserType(type);
+    handleForm({ target: { name: "userType", value: type } });
+  };
 
   async function registration(event) {
     event.preventDefault();
 
+    if (userType === "") {
+      toast("Selecione um tipo de usuário");
+      return;
+    }
+
+    const updatedForm = { ...form, userType };
+
     axios
-      .post(`${process.env.REACT_APP_API_BASE_URL}/register`, form)
+      .post(`${process.env.REACT_APP_API_BASE_URL}/register`, updatedForm)
       .then((response) => {
         console.log(response.data);
         toast("Cadastro realizado com sucesso!");
@@ -75,7 +94,24 @@ export default function RegisterPage() {
               value={form.confirmPassword}
               onChange={handleForm}
             />
-            <button type="submit">Cadastrar</button>
+            <UserTypeContainer>
+              <UserTypeButton
+                type="button"
+                isSelected={userType === "advogado"}
+                onClick={() => handleUserType("advogado")}
+              >
+                Advogado
+              </UserTypeButton>
+              <UserTypeButton
+                type="button"
+                isSelected={userType === "cliente"}
+                onClick={() => handleUserType("cliente")}
+              >
+                Cliente
+              </UserTypeButton>
+            </UserTypeContainer>
+
+            <SubmitButton type="submit">Cadastrar</SubmitButton>
           </Form>
           <Link to="/">
             <Text>

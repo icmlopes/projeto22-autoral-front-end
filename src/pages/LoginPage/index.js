@@ -55,7 +55,7 @@ export default function LoginPage() {
             <p>Senha</p>
             <input
               type="password"
-              resquired
+              required
               placeholder="Senha"
               name="password"
               value={form.password}

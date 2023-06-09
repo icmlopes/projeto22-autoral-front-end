@@ -36,7 +36,8 @@ export const FormContainer = styled.div`
 
 export const Form = styled.form`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  text-align: flex-start;
   justify-content: center;
   flex-direction: column;
   p {
@@ -52,32 +53,11 @@ export const Form = styled.form`
     border: 2px solid #fffcf7;
     border-radius: 10px;
     font-size: 20px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
   }
   input:focus {
     outline: none;
     background-color: #fffcf7;
-  }
-  button {
-    width: 452px;
-    height: 71px;
-    background-color: #08449b;
-    color: #fffcf7;
-    font-size: 25px;
-    border-radius: 10px;
-    margin-top: 10px;
-    border: none;
-    cursor: pointer;
-    @media (max-width: 768px) {
-      width: 348px;
-      height: 47px;
-      font-size: 20px;
-    }
-    @media (max-width: 375px) {
-      width: 310px;
-      height: 47px;
-      font-size: 15px;
-    }
   }
   @media (max-width: 768px) {
     p {
@@ -98,6 +78,56 @@ export const Form = styled.form`
       height: 47px;
       font-size: 15px;
     }
+  }
+`;
+export const SubmitButton = styled.button`
+  width: 460px;
+  height: 71px;
+  background-color: #08449b;
+  color: #fffcf7;
+  font-size: 25px;
+  border-radius: 10px;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    width: 358px;
+    height: 47px;
+    font-size: 20px;
+  }
+  @media (max-width: 375px) {
+    width: 320px;
+    height: 47px;
+    font-size: 15px;
+  }
+`;
+
+export const UserTypeContainer = styled.div`
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
+export const UserTypeButton = styled.button`
+  background-color: #28519c;
+  opacity: ${(props) => (props.isSelected ? "0.6" : "none")};
+  width: 200px;
+  height: 50px;
+  margin: 0px 30px 00px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+  color: #fffcf7;
+  border: none;
+  box-shadow: ${(props) => (props.isSelected ? "0px 0px 5px 1px rgba(255, 255, 255, 0.7)" : "none")};
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 45px;
+    font-size: 15px;
+  }
+  @media (max-width: 375px) {
+    width: 130px;
+    height: 45px;
+    font-size: 15px;
   }
 `;
 
