@@ -9,6 +9,7 @@ import {
   FormContainer,
   Form,
   Text,
+  SubmitButton,
 } from "../../assets/styles/FormStyle";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -61,7 +62,7 @@ export default function LoginPage() {
               value={form.password}
               onChange={handleForm}
             />
-            <button type="submit">Login</button>
+            <SubmitButton type="submit">Login</SubmitButton>
           </Form>
           <Link to="/register">
             <Text>
