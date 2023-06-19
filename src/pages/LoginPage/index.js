@@ -22,7 +22,7 @@ export default function LoginPage() {
     password: "",
   });
 
-  const { setUser } = useContext(InfoContext);
+  const { setUser, user } = useContext(InfoContext);
 
   const navigate = useNavigate();
 
