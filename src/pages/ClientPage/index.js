@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { InfoContext } from "../../contexts/InfoContext";
 import axios from "axios";
+import React, { useState } from "react";
 
 export default function ClientPage() {
+  const { user } = useContext(InfoContext);
+
   const [form, handleForm] = useForm({
     name: "",
     rg: "",
@@ -17,6 +20,9 @@ export default function ClientPage() {
     occupation: "",
     maritalStatus: "",
     nationality: "",
+  });
+
+  const [secondForm, setSecondForm] = useState({
     birthPlace: "",
     cep: "",
     street: "",
@@ -27,22 +33,27 @@ export default function ClientPage() {
     complement: "",
   });
 
-  const { setUser, token, user } = useContext(InfoContext);
-
   const navigate = useNavigate();
 
   async function registration(event) {
     event.preventDefault();
 
+    const combinedForms = {
+      ...form,
+      ...secondForm,
+    };
+
+    console.log(form, secondForm);
+
     axios
-      .post(`${process.env.REACT_APP_API_BASE_URL}/client`, form, {
+      .post(`${process.env.REACT_APP_API_BASE_URL}/client`, combinedForms, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       })
       .then((response) => {
-        setUser(response.data);
-        console.log(response);
+        // setUser(response.data);
+        console.log(response.data);
         toast("Informações cadastradas com sucesso!");
         navigate("/dashboard");
       })
@@ -52,6 +63,14 @@ export default function ClientPage() {
       });
   }
 
+  const handleSecondForm = (event) => {
+    const { name, value } = event.target;
+    setSecondForm((secondForm) => ({
+      ...secondForm,
+      [name]: value,
+    }));
+  };
+
   return (
     <MainContainer>
       <NavBar />
@@ -59,118 +78,145 @@ export default function ClientPage() {
         <BlockContainer>
           <ActionText>Cadastro Cliente</ActionText>
           <FormContainer>
-            <Form onSubmit={registration}>
-              <p>Nome</p>
-              <input type="text" required placeholder="Nome" name="name" value={form.name} onChange={handleForm} />
-              <p>Carteira de Identidade</p>
-              <input
-                type="text"
-                required
-                placeholder="Carteira de Identidade"
-                name="rg"
-                value={form.rg}
-                onChange={handleForm}
-              />
-              <p>CPF</p>
-              <input type="text" required placeholder="CPF" name="cpf" value={form.cpf} onChange={handleForm} />
-              <p>Telefone para contato</p>
-              <input
-                type="text"
-                required
-                placeholder="Telefone"
-                name="phone"
-                value={form.phone}
-                onChange={handleForm}
-              />
-              <p>Data de Nascimento</p>
-              <input
-                type="text"
-                required
-                placeholder="01-01-1990"
-                name="birthday"
-                value={form.birthday}
-                onChange={handleForm}
-              />
-              <p>Profissão</p>
-              <input
-                type="text"
-                required
-                placeholder="Profissão"
-                name="occupation"
-                value={form.occupation}
-                onChange={handleForm}
-              />
-              <p>Estado Civil</p>
-              <input
-                type="text"
-                required
-                placeholder="Estado Civil"
-                name="maritalStatus"
-                value={form.maritalStatus}
-                onChange={handleForm}
-              />
-              <p>Nacionalidade</p>
-              <input
-                type="text"
-                required
-                placeholder="Nacionalidade"
-                name="nationality"
-                value={form.nationality}
-                onChange={handleForm}
-              />
-              <p>Naturalidade</p>
-              <input
-                type="text"
-                required
-                placeholder="Naturalidade"
-                name="birthPlace"
-                value={form.birthPlace}
-                onChange={handleForm}
-              />
-              <p>CEP</p>
-              <input type="text" required placeholder="cep" name="cep" value={form.cep} onChange={handleForm} />
-              <p>Logradouro</p>
-              <input
-                type="text"
-                required
-                placeholder="Logradouro"
-                name="street"
-                value={form.street}
-                onChange={handleForm}
-              />
-              <p>Município</p>
-              <input type="text" required placeholder="Município" name="city" value={form.city} onChange={handleForm} />
-              <p>Estado</p>
-              <input type="text" required placeholder="Estado" name="state" value={form.state} onChange={handleForm} />
-              <p>Número</p>
-              <input
-                type="text"
-                required
-                placeholder="Número"
-                name="number"
-                value={form.number}
-                onChange={handleForm}
-              />
-              <p>Bairro</p>
-              <input
-                type="text"
-                required
-                placeholder="Bairro"
-                name="neighborhood"
-                value={form.neighborhood}
-                onChange={handleForm}
-              />
-              <p>Complemento</p>
-              <input
-                type="text"
-                required
-                placeholder="Complemento"
-                name="complement"
-                value={form.complement}
-                onChange={handleForm}
-              />
-              <SubmitButton type="submit">Salvar</SubmitButton>
-            </Form>
+            <Block>
+              <Form>
+                <p>Nome</p>
+                <input type="text" required placeholder="Nome" name="name" value={form.name} onChange={handleForm} />
+                <p>Carteira de Identidade</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Carteira de Identidade"
+                  name="rg"
+                  value={form.rg}
+                  onChange={handleForm}
+                />
+                <p>CPF</p>
+                <input type="text" required placeholder="CPF" name="cpf" value={form.cpf} onChange={handleForm} />
+                <p>Telefone para contato</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Telefone"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleForm}
+                />
+                <p>Data de Nascimento</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="01-01-1990"
+                  name="birthday"
+                  value={form.birthday}
+                  onChange={handleForm}
+                />
+                <p>Profissão</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Profissão"
+                  name="occupation"
+                  value={form.occupation}
+                  onChange={handleForm}
+                />
+                <p>Estado Civil</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Estado Civil"
+                  name="maritalStatus"
+                  value={form.maritalStatus}
+                  onChange={handleForm}
+                />
+                <p>Nacionalidade</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Nacionalidade"
+                  name="nationality"
+                  value={form.nationality}
+                  onChange={handleForm}
+                />
+              </Form>
+            </Block>
+            <Block>
+              <Form onSubmit={registration}>
+                <p>Naturalidade</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Naturalidade"
+                  name="birthPlace"
+                  value={secondForm.birthPlace}
+                  onChange={handleSecondForm}
+                />
+                <p>CEP</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="cep"
+                  name="cep"
+                  value={secondForm.cep}
+                  onChange={handleSecondForm}
+                />
+                <p>Logradouro</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Logradouro"
+                  name="street"
+                  value={secondForm.street}
+                  onChange={handleSecondForm}
+                />
+                <p>Município</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Município"
+                  name="city"
+                  value={secondForm.city}
+                  onChange={handleSecondForm}
+                />
+                <p>Estado</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Estado"
+                  name="state"
+                  value={secondForm.state}
+                  onChange={handleSecondForm}
+                />
+                <p>Número</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Número"
+                  name="number"
+                  value={secondForm.number}
+                  onChange={handleSecondForm}
+                />
+                <p>Bairro</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Bairro"
+                  name="neighborhood"
+                  value={secondForm.neighborhood}
+                  onChange={handleSecondForm}
+                />
+                <p>Complemento</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="Complemento"
+                  name="complement"
+                  value={secondForm.complement}
+                  onChange={handleSecondForm}
+                />
+                <SubmitButton type="submit">Salvar</SubmitButton>
+              </Form>
+            </Block>
           </FormContainer>
         </BlockContainer>
       </ContendContainer>
@@ -188,6 +234,9 @@ const ContendContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 1280px) {
+    height: 100%;
+  }
 `;
 
 // const Text = styled.div`
@@ -200,7 +249,7 @@ export const BlockContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: auto;
   @media (max-width: 768px) {
     height: auto;
   }
@@ -209,11 +258,14 @@ export const BlockContainer = styled.div`
 export const FormContainer = styled.div`
   width: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* flex-direction: column; */
+  /* gap: 1000px; */
+  /* align-items: center; */
   justify-content: center;
   @media (max-width: 768px) {
+    flex-direction: column;
     height: auto;
+    /* align-items: center; */
   }
 `;
 
@@ -321,20 +373,23 @@ export const Text = styled.div`
 `;
 
 export const ActionText = styled.div`
+  margin-top: 100px;
   align-items: center;
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 43px;
   color: #fffcf7;
   display: flex;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   @media (max-width: 768px) {
+    margin-top: 90px;
     font-size: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   @media (max-width: 375px) {
+    margin-top: 80px;
     font-size: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -362,4 +417,17 @@ export const LogoContainer = styled.div`
       height: 228px;
     }
   }
+`;
+
+const Block = styled.div`
+  /* Add any additional styles for the form blocks */
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+  /* align-items: center; */
+  /* justify-content: center; */
 `;

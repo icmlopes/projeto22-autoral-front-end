@@ -14,7 +14,7 @@ export default function LawyerPage() {
     state: "",
   });
 
-  const { setUser, token, user } = useContext(InfoContext);
+  const { setUser, user } = useContext(InfoContext);
 
   const navigate = useNavigate();
 
@@ -24,11 +24,11 @@ export default function LawyerPage() {
     axios
       .post(`${process.env.REACT_APP_API_BASE_URL}/lawyer`, form, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       })
       .then((response) => {
-        setUser(response.data);
+        // setUser(response.data);
         console.log(response);
         toast("Informações cadastradas com sucesso!");
         navigate("/dashboard");
@@ -51,22 +51,22 @@ export default function LawyerPage() {
               <input
                 type="text"
                 required
-                placeholder="José Luiz da Silveira"
+                placeholder="Nome completo"
                 name="name"
                 value={form.name}
                 onChange={handleForm}
               />
               <p>OAB</p>
-              <input type="text" required placeholder="000000" name="oab" value={form.oab} onChange={handleForm} />
-              <p>Estado</p>
               <input
                 type="text"
                 required
-                placeholder="Minas Gerais"
-                name="state"
-                value={form.state}
+                placeholder="Nº da carteira"
+                name="oab"
+                value={form.oab}
                 onChange={handleForm}
               />
+              <p>Estado</p>
+              <input type="text" required placeholder="Estado" name="state" value={form.state} onChange={handleForm} />
               <SubmitButton type="submit">Salvar</SubmitButton>
             </Form>
           </FormContainer>
@@ -227,11 +227,11 @@ export const ActionText = styled.div`
   display: flex;
   margin-bottom: 60px;
   @media (max-width: 768px) {
-    font-size: 36px;
+    font-size: 34px;
     margin-bottom: 40px;
   }
   @media (max-width: 375px) {
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 30px;
   }
 `;

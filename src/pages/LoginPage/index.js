@@ -34,7 +34,7 @@ export default function LoginPage() {
       .then((response) => {
         setUser(response.data);
         toast("Login realizado com sucesso!");
-        navigate("/dashboard");
+        navigate("/lawyer");
       })
       .catch((error) => {
         console.log(error);
